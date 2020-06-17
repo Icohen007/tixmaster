@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: itacohen/auth
+          image: eu.gcr.io/tixmaster/auth
 ---
 apiVersion: v1
 kind: Service
