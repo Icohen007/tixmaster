@@ -25,8 +25,9 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
-
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
 userSchema.statics.build = (attributes: UserAttributes) => new User(attributes);
+
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export default User;
