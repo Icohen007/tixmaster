@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Password from '../services/Password';
 
 interface UserAttributes {
   email: string;
@@ -23,6 +24,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+});
+
+userSchema.pre('save', async function hashHook(done) {
+  if (this.isModified('password')) {
+    const hashedPassword = await Password.toHash(this.get('password'));
+    this.set('password', hashedPassword);
+  }
+  done();
 });
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
