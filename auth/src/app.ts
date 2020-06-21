@@ -13,7 +13,7 @@ app.set('trust proxy', true); // traffic is being proxied to our app through ing
 app.use(express.json());
 app.use(cookieSession({
   signed: false, // disable cookie encryption
-  secure: true, // HTTPS connection only
+  secure: process.env.NODE_ENV !== 'test', // HTTPS connection only
 }));
 
 app.use(currentUserRouter);
