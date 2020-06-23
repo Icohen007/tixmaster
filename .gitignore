@@ -15,6 +15,7 @@
 next.config.*
 now.json
 .now
+/client/.next/
 
 # production
 /build
@@ -36,3 +37,4 @@ yarn-error.log*
 
 /.idea/
 /tixmaster.iml
+
