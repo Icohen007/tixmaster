@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 
-const useRequest = ({ url, method, body }) => {
+const useRequest = ({
+  url, method, body, onSuccess = () => {},
+}) => {
   const [errors, setErrors] = useState([]);
 
   const doRequest = useCallback(async () => {
     try {
       setErrors([]);
       const response = await axios[method](url, body);
+      onSuccess(response.data);
       return response.data;
     } catch (err) {
       setErrors(err.response.data.errors);
+      return null;
     }
   }, [errors, method, url, body]);
 
