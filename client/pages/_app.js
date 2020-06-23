@@ -1,5 +1,3 @@
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
-};
+export default ({ Component, pageProps }) => <Component {...pageProps} />;

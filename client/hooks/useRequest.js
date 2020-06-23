@@ -14,7 +14,7 @@ const useRequest = ({ url, method, body }) => {
     }
   }, [errors, method, url, body]);
 
-  return useMemo(() => ({doRequest, errors}), [doRequest]);
+  return useMemo(() => ({ doRequest, errors }), [doRequest]);
 };
 
 export default useRequest;
