@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import axiosFactory from '../api/axiosFactory';
+import Header from '../components/Header';
 
 const AppComponent = ({ Component, pageProps, currentUser }) => (
   <div>
     <h1>
-      Header!
-      {currentUser.email}
+      <Header currentUser={currentUser} />
     </h1>
-    <Component {...pageProps} />
+    <Component {...pageProps} currentUser={currentUser} />
   </div>
 );
 
