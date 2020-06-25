@@ -14,7 +14,7 @@ export default () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    doRequest();
+    await doRequest();
   };
 
   return (
