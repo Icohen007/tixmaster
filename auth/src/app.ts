@@ -2,11 +2,10 @@ import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
 
+import { NotFoundError, errorHandler } from '@tixmaster/common';
 import {
   currentUserRouter, signinRouter, signoutRouter, signupRouter,
 } from './routes';
-import { NotFoundError } from './errors';
-import { errorHandler } from './middlewares';
 
 const app = express();
 app.set('trust proxy', true); // traffic is being proxied to our app through ingress nginx, express default behavior is to NOT trust proxy.
