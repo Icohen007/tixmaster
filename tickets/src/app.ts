@@ -1,16 +1,18 @@
 import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
-
 import { NotFoundError, errorHandler } from '@tixmaster/common';
+import { createTicketRouter } from './routes';
 
 const app = express();
-app.set('trust proxy', true); // traffic is being proxied to our app through ingress nginx, express default behavior is to NOT trust proxy.
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(cookieSession({
-  signed: false, // disable cookie encryption
-  secure: process.env.NODE_ENV !== 'test', // HTTPS connection only
+  signed: false,
+  secure: process.env.NODE_ENV !== 'test',
 }));
+
+app.use(createTicketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
