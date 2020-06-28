@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../../app';
 import Ticket from '../../models/Ticket';
 
-it('has route handler listening to /api/tickets', async () => {
+it('has route handler listening to POST /api/tickets', async () => {
   const response = await request(app)
     .post('/api/tickets')
     .send({});
