@@ -7,8 +7,12 @@ it('has route handler listening to /api/tickets', async () => {
   expect(response.status).not.toEqual(404);
 });
 
-it('user should be signed in', async () => {
+it('when user is not signed in, returns 401', async () => {
+  await request(app).post('/api/tickets').send({}).expect(401);
+});
 
+it('when user is signed in, returns 200', async () => {
+  await request(app).post('/api/tickets').send({}).expect(200);
 });
 
 it('when invalid title, returns error', async () => {
