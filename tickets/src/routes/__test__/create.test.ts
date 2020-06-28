@@ -16,20 +16,44 @@ it('when user is not signed in, returns 401', async () => {
     .expect(401);
 });
 
-it('when user is signed in, returns 200', async () => {
+it('when empty title, returns error', async () => {
+  const emptyTitle = { title: '', price: 10 };
+
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
-    .send({})
-    .expect(200);
+    .send(emptyTitle)
+    .expect(400);
 });
 
-it('when invalid title, returns error', async () => {
+it('when without title, returns error', async () => {
+  const withoutTitle = { price: 10 };
 
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send(withoutTitle)
+    .expect(400);
 });
 
-it('when invalid price, returns error', async () => {
+it('when negative price, returns error', async () => {
+  const negativePrice = { title: 'title', price: -10 };
 
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send(negativePrice)
+    .expect(400);
+});
+
+it('when without price, returns error', async () => {
+  const withoutPrice = { title: 'title' };
+
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send(withoutPrice)
+    .expect(400);
 });
 
 it('when vaild parameters, create ticket', async () => {

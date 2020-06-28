@@ -1,10 +1,25 @@
 import express, { Request, Response } from 'express';
-import { requireAuth } from '@tixmaster/common';
+import { body } from 'express-validator';
+import { requireAuth, validateRequest } from '@tixmaster/common';
 
 const router = express.Router();
 
-router.post('/api/tickets', requireAuth, (req: Request, res: Response) => {
-  res.sendStatus(200);
-});
+const validationChains = [
+  body('title')
+    .trim()
+    .notEmpty()
+    .withMessage('You must supply title'),
+  body('price')
+    .isFloat({ gt: 0 })
+    .withMessage('price must be greater than 0'),
+];
+
+router.post('/api/tickets',
+  requireAuth,
+  validationChains,
+  validateRequest,
+  (req: Request, res: Response) => {
+    res.sendStatus(200);
+  });
 
 export default router;
