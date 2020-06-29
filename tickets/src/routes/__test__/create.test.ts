@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 import Ticket from '../../models/Ticket';
+import { createTicket } from '../../test/helpers';
 
 it('has route handler listening to POST /api/tickets', async () => {
   const response = await request(app)
@@ -65,11 +66,7 @@ it('db init with no tickets', async () => {
 it('when vaild parameters, create ticket', async () => {
   const validParams = { title: 'title', price: 10 };
 
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', global.signin())
-    .send(validParams)
-    .expect(201);
+  await createTicket(validParams);
 
   const tickets = await Ticket.find({ title: validParams.title });
   expect(tickets[0].title).toEqual(validParams.title);
