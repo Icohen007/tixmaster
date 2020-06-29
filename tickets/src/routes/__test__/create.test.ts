@@ -21,41 +21,25 @@ it('when user is not signed in, returns 401', async () => {
 it('when empty title, returns error', async () => {
   const emptyTitle = { title: '', price: 10 };
 
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', global.signin())
-    .send(emptyTitle)
-    .expect(400);
+  await createTicket(emptyTitle).expect(400);
 });
 
 it('when without title, returns error', async () => {
   const withoutTitle = { price: 10 };
 
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', global.signin())
-    .send(withoutTitle)
-    .expect(400);
+  await createTicket(withoutTitle).expect(400);
 });
 
 it('when negative price, returns error', async () => {
   const negativePrice = { title: 'title', price: -10 };
 
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', global.signin())
-    .send(negativePrice)
-    .expect(400);
+  await createTicket(negativePrice).expect(400);
 });
 
 it('when without price, returns error', async () => {
   const withoutPrice = { title: 'title' };
 
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', global.signin())
-    .send(withoutPrice)
-    .expect(400);
+  await createTicket(withoutPrice).expect(400);
 });
 
 it('db init with no tickets', async () => {
@@ -66,7 +50,7 @@ it('db init with no tickets', async () => {
 it('when vaild parameters, create ticket', async () => {
   const validParams = { title: 'title', price: 10 };
 
-  await createTicket(validParams);
+  await createTicket(validParams).expect(201);
 
   const tickets = await Ticket.find({ title: validParams.title });
   expect(tickets[0].title).toEqual(validParams.title);
