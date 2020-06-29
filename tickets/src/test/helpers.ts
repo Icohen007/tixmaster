@@ -4,16 +4,16 @@ import app from '../app';
 
 export const generateMongooseId = () => new mongoose.Types.ObjectId().toHexString();
 
-export const createTicket = (ticketParams: { price?: number; title?: string }) => (
+export const createTicket = (ticketParams: { price?: number; title?: string }, cookie?: string[]) => (
   request(app)
     .post('/api/tickets')
-    .set('Cookie', global.signin())
+    .set('Cookie', cookie || global.signin())
     .send(ticketParams)
 );
 
-export const updateTicket = (ticketId: string, ticketParams: { price?: number; title?: string }) => (
+export const updateTicket = (ticketId: string, ticketParams: { price?: number; title?: string }, cookie?: string[]) => (
   request(app)
     .put(`/api/tickets/${ticketId}`)
-    .set('Cookie', global.signin())
+    .set('Cookie', cookie || global.signin())
     .send(ticketParams)
 );
