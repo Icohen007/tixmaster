@@ -1,6 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
+import { generateMongooseId } from './helpers';
 
 declare global {
   namespace NodeJS {
@@ -37,7 +38,7 @@ afterAll(async () => {
 });
 
 global.signin = () => {
-  const dummyPayload = { id: 'testId', email: 'test@test.com' };
+  const dummyPayload = { id: generateMongooseId(), email: 'test@test.com' };
   const sessionJSON = JSON.stringify({ jwt: jwt.sign(dummyPayload, process.env.JWT_SECRET!) });
   const base64 = Buffer.from(sessionJSON).toString('base64');
   // return a string thats the cookie with the encoded data, array for supertest to be happy

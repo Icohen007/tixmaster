@@ -1,7 +1,7 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
 import app from '../../app';
-import { generateMongooseId, updateTicket } from '../../test/helpers';
+import { createTicket, generateMongooseId, updateTicket } from '../../test/helpers';
 
 it('when user does not signed in, returns 401', async () => {
   const id = generateMongooseId();
@@ -21,7 +21,11 @@ it('when id does not exist, returns 404', async () => {
 });
 
 it('when user does not own the ticket, returns 401', async () => {
+  const validParams = { title: 'title', price: 10 };
+  const updatedParams = { title: 'title2', price: 20 };
+  const response = await createTicket(validParams);
 
+  await updateTicket(response.body.id, updatedParams).expect(401);
 });
 
 it('when user does not exist, returns 404', async () => {
