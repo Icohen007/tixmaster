@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { requireAuth, validateRequest } from '@tixmaster/common';
+import TicketCreatedPublisher from '../events/publishers/TicketCreatedPublisher';
 import Ticket from '../models/Ticket';
+import natsWrapper from '../NatsWrapper';
 
 const router = express.Router();
 
@@ -19,6 +21,14 @@ router.post('/api/tickets', requireAuth, validationChains, validateRequest, asyn
   const { title, price } = req.body;
   const ticket = Ticket.build({ title, price, userId: req.currentUser!.id });
   await ticket.save();
+
+  await new TicketCreatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId,
+  });
+
   res.status(201).send(ticket);
 });
 
