@@ -4,6 +4,8 @@ import {
   requireAuth, validateRequest, NotFoundError, NotAuthorizedError,
 } from '@tixmaster/common';
 import Ticket from '../models/Ticket';
+import natsWrapper from '../NatsWrapper';
+import TicketUpdatedPublisher from '../events/publishers/TicketUpdatedPublisher';
 
 const router = express.Router();
 
@@ -35,6 +37,13 @@ router.put('/api/tickets/:id', requireAuth, validationChains, validateRequest, a
   });
 
   await ticket.save();
+
+  await new TicketUpdatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId,
+  });
 
   res.send(ticket);
 });
