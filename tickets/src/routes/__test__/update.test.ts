@@ -2,6 +2,7 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import app from '../../app';
 import { createTicket, generateMongooseId, updateTicket } from '../../test/helpers';
+import natsWrapper from '../../NatsWrapper';
 
 it('when user does not signed in, returns 401', async () => {
   const id = generateMongooseId();
@@ -56,4 +57,5 @@ it('when valid params, update the ticket', async () => {
 
   expect(ticketResponse.body.title).toEqual(updatedParams.title);
   expect(ticketResponse.body.price).toEqual(updatedParams.price);
+  expect(natsWrapper.client.publish).toBeCalled();
 });

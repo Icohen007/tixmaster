@@ -11,8 +11,11 @@ declare global {
   }
 }
 
+jest.mock('../NatsWrapper');
+
 let mongo: any;
 beforeAll(async () => {
+  jest.clearAllMocks();
   process.env.JWT_SECRET = 'dummySecret';
 
   mongo = new MongoMemoryServer();

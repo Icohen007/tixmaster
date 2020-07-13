@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../app';
 import Ticket from '../../models/Ticket';
 import { createTicket } from '../../test/helpers';
+import natsWrapper from '../../NatsWrapper';
 
 it('has route handler listening to POST /api/tickets', async () => {
   const response = await request(app)
@@ -55,4 +56,5 @@ it('when vaild parameters, create ticket', async () => {
   const tickets = await Ticket.find({ title: validParams.title });
   expect(tickets[0].title).toEqual(validParams.title);
   expect(tickets[0].price).toEqual(validParams.price);
+  expect(natsWrapper.client.publish).toBeCalled();
 });
