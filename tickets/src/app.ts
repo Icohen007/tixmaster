@@ -3,7 +3,7 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import { NotFoundError, errorHandler, currentUser } from '@tixmaster/common';
 import {
-  createTicketRouter, indeTicketRouter, showTicketRouter, updateTicketRouter,
+  createTicketRouter, indexTicketRouter, showTicketRouter, updateTicketRouter,
 } from './routes';
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(currentUser);
 
 app.use(createTicketRouter);
 app.use(showTicketRouter);
-app.use(indeTicketRouter);
+app.use(indexTicketRouter);
 app.use(updateTicketRouter);
 
 app.all('*', async () => {

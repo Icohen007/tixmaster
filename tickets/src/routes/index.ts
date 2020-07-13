@@ -8,7 +8,7 @@ router.get('/api/tickets', async (req: Request, res: Response) => {
   res.status(200).send(tickets);
 });
 
-export { router as indeTicketRouter };
+export { router as indexTicketRouter };
 export { default as createTicketRouter } from './create';
 export { default as showTicketRouter } from './show';
 export { default as updateTicketRouter } from './update';
