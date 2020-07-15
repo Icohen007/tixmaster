@@ -58,3 +58,5 @@ it('when correct parameters, order created and ticket reserved', async () => {
   expect(response.body.status).toEqual(OrderStatus.Created);
   expect(response.body.ticket.id).toEqual(ticket.id);
 });
+
+it.todo('emits an order created event');
