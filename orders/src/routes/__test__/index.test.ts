@@ -1,18 +1,6 @@
 import request from 'supertest';
 import app from '../../app';
-import Ticket from '../../models/Ticket';
-import { createOrder } from '../../test/helpers';
-
-const insertTicketToDb = async () => {
-  const ticket = Ticket.build({
-    title: 'validTitle',
-    price: 20,
-  });
-
-  await ticket.save();
-
-  return ticket;
-};
+import { createOrder, insertTicketToDb } from '../../test/helpers';
 
 it('when orders created for two users, get only user own orders', async () => {
   const ticket1 = await insertTicketToDb();
