@@ -3,6 +3,7 @@ import { OrderStatus } from '@tixmaster/common';
 import Order from './Order';
 
 interface TicketAttributes {
+  id: string;
   title: string;
   price: number;
 }
@@ -38,7 +39,11 @@ const ticketSchema = new mongoose.Schema({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
-ticketSchema.statics.build = (attributes: TicketAttributes) => new Ticket(attributes);
+ticketSchema.statics.build = (attributes: TicketAttributes) => new Ticket({
+  _id: attributes.id,
+  title: attributes.title,
+  price: attributes.price,
+});
 ticketSchema.methods.isReserved = async function () {
 // this === the ticket document we called 'isReserved' on.
   const existingOrder = await Order.findOne({
