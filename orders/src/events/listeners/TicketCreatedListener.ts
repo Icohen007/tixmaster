@@ -1,7 +1,7 @@
-import { Listener, Subjects, TicketCreatedEvent } from '@tixmaster/common';
 import { Message } from 'node-nats-streaming';
-import { ordersService } from './consts';
+import { Listener, Subjects, TicketCreatedEvent } from '@tixmaster/common';
 import Ticket from '../../models/Ticket';
+import { ordersService } from './consts';
 
 class TicktCreatedListener extends Listener<TicketCreatedEvent> {
   subject: Subjects.TicketCreated = Subjects.TicketCreated;
