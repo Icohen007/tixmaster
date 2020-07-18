@@ -4,6 +4,7 @@ import { createOrder, generateMongooseId } from '../../test/helpers';
 import Ticket from '../../models/Ticket';
 import Order from '../../models/Order';
 import app from '../../app';
+import natsWrapper from '../../NatsWrapper';
 
 it('when user is not signed in, returns 401', async () => {
   await request(app)
@@ -59,4 +60,12 @@ it('when correct parameters, order created and ticket reserved', async () => {
   expect(response.body.ticket.id).toEqual(ticket.id);
 });
 
-it.todo('emits an order created event');
+it('emits an order created event', async () => {
+  const ticketParams = { title: 'title', price: 10 };
+
+  const ticket = Ticket.build(ticketParams);
+  await ticket.save();
+
+  await createOrder({ ticketId: ticket.id }).expect(201);
+  expect(natsWrapper.client.publish).toBeCalled();
+});

@@ -2,6 +2,7 @@ import request from 'supertest';
 import { OrderStatus } from '@tixmaster/common';
 import app from '../../app';
 import { createOrder, generateMongooseId, insertTicketToDb } from '../../test/helpers';
+import natsWrapper from '../../NatsWrapper';
 
 it('when user is not authenticated, return 401', async () => {
   await request(app)
@@ -33,7 +34,7 @@ it('when one user try to fetch another user order, returns 401', async () => {
     .expect(401);
 });
 
-it('when order is exist, fetch the order', async () => {
+it('when order is exist, fetch and modify the order', async () => {
   const ticket = await insertTicketToDb();
   const cookie = global.signin();
   const { body: order } = await createOrder({ ticketId: ticket.id }, cookie).expect(201);
@@ -51,6 +52,5 @@ it('when order is exist, fetch the order', async () => {
     .expect(200);
 
   expect(updatedOrder.status).toEqual(OrderStatus.Cancelled);
+  expect(natsWrapper.client.publish).toBeCalled();
 });
-
-it.todo('emits an order cancelled event');
