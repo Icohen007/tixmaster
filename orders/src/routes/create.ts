@@ -54,6 +54,7 @@ router.post('/api/orders', requireAuth, validationChains, validateRequest, async
     status: newOrder.status,
     userId: newOrder.userId,
     expiresAt: newOrder.expiresAt.toISOString(),
+    version: newOrder.version,
     ticket: {
       id: ticket.id,
       price: ticket.price,
