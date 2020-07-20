@@ -18,6 +18,7 @@ export interface TicketDoc extends mongoose.Document {
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attributes: TicketAttributes): TicketDoc;
+  findByEvent(event: { id: string, version: number}): Promise<TicketDoc | null>;
 }
 
 const ticketSchema = new mongoose.Schema({
@@ -41,6 +42,12 @@ const ticketSchema = new mongoose.Schema({
 
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
+
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+ticketSchema.statics.findByEvent = (event: { id: string, version: number}) => Ticket.findOne({
+  _id: event.id,
+  version: event.version - 1,
+});
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 ticketSchema.statics.build = (attributes: TicketAttributes) => new Ticket({
