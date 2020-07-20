@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import { OrderStatus } from '@tixmaster/common';
+import {OrderStatus} from '@tixmaster/common';
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 import Order from './Order';
 
 interface TicketAttributes {
@@ -11,6 +12,7 @@ interface TicketAttributes {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
@@ -36,6 +38,9 @@ const ticketSchema = new mongoose.Schema({
     },
   },
 });
+
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 ticketSchema.statics.build = (attributes: TicketAttributes) => new Ticket({
