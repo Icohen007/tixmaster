@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import {
-  requireAuth, validateRequest, NotFoundError, NotAuthorizedError,
+  requireAuth, validateRequest, NotFoundError, NotAuthorizedError, BadRequestError,
 } from '@tixmaster/common';
 import Ticket from '../models/Ticket';
 import natsWrapper from '../NatsWrapper';
@@ -25,6 +25,10 @@ router.put('/api/tickets/:id', requireAuth, validationChains, validateRequest, a
 
   if (!ticket) {
     throw new NotFoundError();
+  }
+
+  if (ticket.orderId) {
+    throw new BadRequestError('Cannot edit a reserved ticket');
   }
 
   if (ticket.userId !== req.currentUser!.id) {
