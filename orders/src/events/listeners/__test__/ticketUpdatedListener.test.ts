@@ -48,3 +48,11 @@ it('acks the message', async () => {
 
   expect(msg.ack).toBeCalled();
 });
+
+it('does not ack if event version is not match', async () => {
+  const { listener, data, msg } = await setupTest();
+  data.version = 10;
+
+  await expect(listener.onMessage(data, msg)).rejects.toThrow();
+  expect(msg.ack).not.toBeCalled();
+});
