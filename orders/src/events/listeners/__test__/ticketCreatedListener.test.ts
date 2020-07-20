@@ -1,8 +1,8 @@
-import {TicketCreatedEvent} from '@tixmaster/common';
-import {Message} from 'node-nats-streaming';
+import { TicketCreatedEvent } from '@tixmaster/common';
+import { Message } from 'node-nats-streaming';
 import natsWrapper from '../../../NatsWrapper';
 import Ticket from '../../../models/Ticket';
-import {generateMongooseId} from '../../../test/helpers';
+import { generateMongooseId } from '../../../test/helpers';
 import TicketCreatedListener from '../TicketCreatedListener';
 
 const setupTest = async () => {

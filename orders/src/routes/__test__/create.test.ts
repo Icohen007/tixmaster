@@ -1,6 +1,6 @@
-import {OrderStatus} from '@tixmaster/common';
+import { OrderStatus } from '@tixmaster/common';
 import request from 'supertest';
-import {createOrder, generateMongooseId} from '../../test/helpers';
+import { createOrder, generateMongooseId } from '../../test/helpers';
 import Ticket from '../../models/Ticket';
 import Order from '../../models/Order';
 import app from '../../app';
