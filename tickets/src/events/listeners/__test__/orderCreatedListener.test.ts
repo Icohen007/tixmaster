@@ -37,7 +37,7 @@ const setupTest = async () => {
   };
 };
 
-it('sets the userId of the ticket', async () => {
+it('sets the orderId of the ticket', async () => {
   const {
     listener, data, msg, ticket,
   } = await setupTest();
