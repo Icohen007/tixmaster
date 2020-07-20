@@ -1,6 +1,6 @@
-import { OrderStatus } from '@tixmaster/common';
+import {OrderStatus} from '@tixmaster/common';
 import request from 'supertest';
-import { createOrder, generateMongooseId } from '../../test/helpers';
+import {createOrder, generateMongooseId} from '../../test/helpers';
 import Ticket from '../../models/Ticket';
 import Order from '../../models/Order';
 import app from '../../app';
@@ -31,7 +31,7 @@ it('when ticket not exist, returns 404', async () => {
 });
 
 it('when ticket already reserved, returns 400', async () => {
-  const ticketParams = { title: 'title', price: 10 };
+  const ticketParams = { id: generateMongooseId(), title: 'title', price: 10 };
 
   const ticket = Ticket.build(ticketParams);
   await ticket.save();
@@ -50,7 +50,7 @@ it('when ticket already reserved, returns 400', async () => {
 });
 
 it('when correct parameters, order created and ticket reserved', async () => {
-  const ticketParams = { title: 'title', price: 10 };
+  const ticketParams = { id: generateMongooseId(), title: 'title', price: 10 };
 
   const ticket = Ticket.build(ticketParams);
   await ticket.save();
@@ -61,7 +61,7 @@ it('when correct parameters, order created and ticket reserved', async () => {
 });
 
 it('emits an order created event', async () => {
-  const ticketParams = { title: 'title', price: 10 };
+  const ticketParams = { id: generateMongooseId(), title: 'title', price: 10 };
 
   const ticket = Ticket.build(ticketParams);
   await ticket.save();

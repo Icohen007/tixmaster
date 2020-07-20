@@ -14,6 +14,7 @@ export const createOrder = (orderParams: { ticketId: string }, cookie?: string[]
 
 export const insertTicketToDb = async () => {
   const ticket = Ticket.build({
+    id: generateMongooseId(),
     title: 'validTitle',
     price: 20,
   });
