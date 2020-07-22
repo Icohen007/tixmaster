@@ -1,1 +1,1 @@
-export const expirationService = 'expirationService';
+export const expirationService = 'expiration-service';
