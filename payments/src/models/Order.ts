@@ -19,6 +19,7 @@ interface OrderDoc extends mongoose.Document {
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attributes: OrderAttributes): OrderDoc;
+  findByEvent(event: { id: string, version: number}): Promise<OrderDoc | null>;
 }
 // version not included, automatically added by mongoose.
 const OrderSchema = new mongoose.Schema({
@@ -47,6 +48,12 @@ const OrderSchema = new mongoose.Schema({
 
 OrderSchema.set('versionKey', 'version');
 OrderSchema.plugin(updateIfCurrentPlugin);
+
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+OrderSchema.statics.findByEvent = (event: { id: string, version: number}) => Order.findOne({
+  _id: event.id,
+  version: event.version - 1,
+});
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 OrderSchema.statics.build = (attributes: OrderAttributes) => new Order({
