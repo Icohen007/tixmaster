@@ -12,6 +12,7 @@ class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
 
   queueGroupName = ordersService;
 
+  // eslint-disable-next-line consistent-return
   async onMessage(data: ExpirationCompleteEvent['data'], msg: Message) {
     const { orderId } = data;
     const order = await Order.findById(orderId).populate('ticket');
