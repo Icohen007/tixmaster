@@ -7,6 +7,7 @@ import {
 } from '@tixmaster/common';
 import { body } from 'express-validator';
 import Order from '../models/Order';
+import stripe from '../stripe';
 
 const router = express.Router();
 
@@ -35,7 +36,13 @@ router.post('/api/payments', requireAuth, validationChains, validateRequest, asy
     throw new BadRequestError('Cant charge a Cancelled Order');
   }
 
-  res.send({ success: true });
+  await stripe.charges.create({
+    currency: 'usd',
+    amount: order.price * 100,
+    source: token,
+  });
+
+  res.status(201).send({ success: true });
 });
 
 export default router;

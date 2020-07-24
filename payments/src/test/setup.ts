@@ -12,6 +12,7 @@ declare global {
 }
 
 jest.mock('../NatsWrapper');
+jest.mock('../stripe');
 
 let mongo: any;
 beforeAll(async () => {
