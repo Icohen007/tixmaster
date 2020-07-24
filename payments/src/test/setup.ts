@@ -6,7 +6,7 @@ import { generateMongooseId } from './helpers';
 declare global {
   namespace NodeJS {
     interface Global {
-      signin(): string[];
+      signin(id?: string): string[];
     }
   }
 }
@@ -40,8 +40,8 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-global.signin = () => {
-  const dummyPayload = { id: generateMongooseId(), email: 'test@test.com' };
+global.signin = (id: string = generateMongooseId()) => {
+  const dummyPayload = { id, email: 'test@test.com' };
   const sessionJSON = JSON.stringify({ jwt: jwt.sign(dummyPayload, process.env.JWT_SECRET!) });
   const base64 = Buffer.from(sessionJSON).toString('base64');
   // return a string thats the cookie with the encoded data, array for supertest to be happy
