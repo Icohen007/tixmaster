@@ -2,6 +2,7 @@ import { OrderStatus } from '@tixmaster/common';
 import { createPayment, createPaymentWithUserId, generateMongooseId } from '../../test/helpers';
 import Order from '../../models/Order';
 import stripe from '../../stripe';
+import Payment from '../../models/Payment';
 
 it('when order does not exist, returns 404', async () => {
   const paymentParams = { token: 'token', orderId: generateMongooseId() };
@@ -39,7 +40,7 @@ it('when order already cancelled, returns 400', async () => {
   await createPaymentWithUserId(userId, paymentParams).expect(400);
 });
 
-it('when vaild inputs, returns 201', async () => {
+it('when vaild inputs, charge payment, save payment to db, returns 201', async () => {
   const validToken = 'tok_visa';
   const userId = generateMongooseId();
   const order = await Order.build({
@@ -50,10 +51,10 @@ it('when vaild inputs, returns 201', async () => {
     price: 15,
   });
   await order.save();
-
   const paymentParams = { token: validToken, orderId: order.id };
 
   await createPaymentWithUserId(userId, paymentParams).expect(201);
+
   const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0];
   expect(chargeOptions.source).toEqual(validToken);
   expect(chargeOptions.amount).toEqual(order.price * 100);
