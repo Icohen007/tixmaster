@@ -7,11 +7,6 @@ const LandingPage = ({ currentUser }) => (
     <h1>You are NOT signed in</h1>
   ));
 
-LandingPage.getInitialProps = async (ctx) => {
-  const client = axiosFactory(ctx);
-  const { data } = await client.get('/api/users/currentuser');
-
-  return data;
-};
+LandingPage.getInitialProps = async (ctx, client, currentUser) => ({});
 
 export default LandingPage;
