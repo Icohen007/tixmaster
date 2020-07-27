@@ -21,7 +21,7 @@ const validationChains = [
     .withMessage('You must supply valid ticketId'),
 ];
 
-const EXPIRATION_SECONDS = 15 * 60;
+const EXPIRATION_SECONDS = 60;
 
 function generateExpirationDate() {
   const expiresAt = new Date();

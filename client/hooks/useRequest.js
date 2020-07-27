@@ -6,10 +6,10 @@ const useRequest = ({
 }) => {
   const [errors, setErrors] = useState([]);
 
-  const doRequest = useCallback(async () => {
+  const doRequest = useCallback(async (extraBody = {}) => {
     try {
       setErrors([]);
-      const response = await axios[method](url, body);
+      const response = await axios[method](url, { ...body, ...extraBody });
       onSuccess(response.data);
       return response.data;
     } catch (err) {
