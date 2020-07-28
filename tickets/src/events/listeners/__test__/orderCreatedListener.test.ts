@@ -11,7 +11,7 @@ const setupTest = async () => {
   const ticket = Ticket.build({
     title: 'title',
     price: 10,
-    userId: generateMongooseId(),
+    userId: 'userId',
   });
   await ticket.save();
 
@@ -19,7 +19,7 @@ const setupTest = async () => {
     id: generateMongooseId(),
     version: 0,
     status: OrderStatus.Created,
-    userId: generateMongooseId(),
+    userId: 'userId',
     expiresAt: 'date',
     ticket: {
       id: ticket.id,
